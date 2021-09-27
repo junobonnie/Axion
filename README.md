@@ -7,4 +7,4 @@
 
 라이센스: GNU GPL LISENCE
 
-Download Link: https://drive.google.com/file/d/17HOlNr8IW9qmAyH7SaNyaK6-hx_k_AbK/view?usp=sharing
+v0.1(beta) (windows) Download Link: https://drive.google.com/file/d/17HOlNr8IW9qmAyH7SaNyaK6-hx_k_AbK/view?usp=sharing
