@@ -6,15 +6,17 @@
 사용한 라이브러리: pyqt 사용
 
 라이센스: GNU GPL LISENCE
+
 ![image](https://user-images.githubusercontent.com/60418809/135102062-8a409f2a-3f78-43dc-bcf3-29174ee07a06.png)
 
 ![use4](https://user-images.githubusercontent.com/60418809/135101807-fa033421-ac2d-40ce-83ab-c70c9ebcf69d.png)
+
 ![log](https://user-images.githubusercontent.com/60418809/135101821-6329345e-e2db-47a9-9f68-f6fe2d68eab1.png)
 
 ![config](https://user-images.githubusercontent.com/60418809/135101669-efd8ad14-e674-4c0c-93bf-14c920589230.gif)
 
-
 ![use](https://user-images.githubusercontent.com/60418809/135101734-d4509f6c-f28e-4fce-81d3-25da8eefd74c.gif)
+
 ![use2](https://user-images.githubusercontent.com/60418809/135101742-bc8cf69a-a9d3-44f1-a9ab-58bbe75f13b5.gif)
 
 
