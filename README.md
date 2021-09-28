@@ -7,7 +7,7 @@
 
 라이센스: GNU GPL LISENCE
 
-v0.2 변경사항: 
+v0.2 변경사항:/
 탐색 폴더에 파일이 없을때 progressbar에 발생하는 zero division error fix함. 
 실행 파일 크기를 300MB에서 45.5MB로 줄임. 
 결과창 디자인 변경. 
