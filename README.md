@@ -15,6 +15,8 @@ v0.2 변경사항: </br>
 사용 편의성을 위해 프로그램을 껐다 켜도 최근 열었던 폴더의 상위폴더에서 파일 다이알로그가 열리게 함.
 
 
-v0.2(beta) (windows) Download Link: https://drive.google.com/file/d/1B3HAIh7jADvq2gi1EWrZAPGbu1VjJGoz/view?usp=sharing
+v0.2(beta) (windows) Download Link: </br>
+https://drive.google.com/file/d/1B3HAIh7jADvq2gi1EWrZAPGbu1VjJGoz/view?usp=sharing </br>
+http://a76f41d0e826.ap.ngrok.io/index.php/s/NsRaaMqqRTNNxr6/download/AXION-v0.2.zip
 
 v0.1(beta) (windows) Download Link: https://drive.google.com/file/d/17HOlNr8IW9qmAyH7SaNyaK6-hx_k_AbK/view?usp=sharing
