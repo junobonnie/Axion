@@ -37,6 +37,25 @@ def convert_size(size_bytes):
    s = round(size_bytes / p, 2)
    return "%s %s" % (s, size_name[i])
 
+import datetime
+
+def convert_date(time):
+    return str(datetime.datetime.fromtimestamp(time))
+
+from PIL import Image
+
+def get_img_size(img_path):
+    try:
+        return Image.open(img_path).size
+    except:
+        return None
+    
+def get_dpi(img_path):
+    try:
+        return Image.open(img_path).info['dpi'][0]
+    except:
+        return 96 # it's windows explorer default dpi
+
 if __name__ == '__main__':
     import glob
     files = glob.glob('*')
