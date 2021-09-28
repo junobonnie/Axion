@@ -14,13 +14,17 @@ from PyQt5 import uic, sip
 import nabitools
 import filesort
 
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 def load_config():
-    with open("Axion.conf", "r") as f:
-        size, colors = f.readlines()
-    return int(size), int(colors)
+    try:
+        with open("Axion.conf", "r", -1, 'utf-8') as f:
+            size, colors, path = f.readlines()
+    except: 
+        return 16, 16, ''
+    return int(size), int(colors), path
 
 #UI파일 연결
 #단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
@@ -52,8 +56,16 @@ class WindowClass(QMainWindow, form_class):
         self.statusBar.showMessage(' 검사 대기 중...')
     
     def showDialog(self, line):
-        path = QFileDialog.getExistingDirectory(self, 'Open Folder', '')
-        line.setText(path)
+        size, colors, path = load_config()
+        try:
+            folder_path = QFileDialog.getExistingDirectory(self, 'Open Folder', path + '/..')
+        except:
+            folder_path = QFileDialog.getExistingDirectory(self, 'Open Folder', '')
+        if not folder_path == '':
+            path = folder_path
+        with open("Axion.conf", "w", -1, 'utf-8') as f:
+            f.write(str(size) + '\n' + str(colors) + '\n' + path)
+        line.setText(folder_path)
         
     def search_duplicate_images(self):
         self.start_btn.setEnabled(False)
@@ -110,7 +122,10 @@ class WindowClass(QMainWindow, form_class):
         self.log_text += str(msg) + '\n\n'
         
     def progressbar_set(self, value):
-        self.progressBar.setValue(value*100//len(self.files))
+        try:
+            self.progressBar.setValue(value*100//len(self.files))
+        except:
+            pass
         
     def result_dialog_open(self, result):
         dialog = ResultDialog(result)
@@ -147,7 +162,7 @@ class Thread(QThread):
         self.files = files
 
     def run(self):
-        size, colors = load_config()
+        size, colors, path = load_config()
         nabi = nabitools.Nabi((size, size), colors)
         result = nabi.find_duplicate_images(self.files, self.change_value.emit, self.change_text.emit)
         self.change_result.emit(result)
@@ -175,15 +190,27 @@ class ResultDialog(QDialog, result_dialog):
             lbl = QLabel('겹치는 이미지가 없습니다.')
             lbl.setAlignment(Qt.AlignCenter)
             self.graph_verticalLayout.addWidget(lbl)
-            
+        else:
+            self.graph_verticalLayout.setAlignment(Qt.AlignTop)
         for image_group in result:
             image_hash = image_group[0]
             image_group = filesort.file_size_sort(image_group[1:])
-            self.graph_verticalLayout.addWidget(QLabel('\n이미지 해쉬: ' + image_hash + '\n'))
+            lbl_hash = QLabel('이미지 해쉬: ' + image_hash)
+            lbl_hash.setAlignment(Qt.AlignCenter)
+            lbl_hash.setMinimumHeight(60)
+            lbl_hash.setMaximumHeight(60)
+            lbl_hash.setStyleSheet('border-bottom: 1px solid lightgray; border-top: 1px solid lightgray;')
+            self.graph_verticalLayout.addWidget(lbl_hash)
             for image in image_group:
                 #print(image)
                 sublayout = QHBoxLayout()
                 self.graph_verticalLayout.addLayout(sublayout)
+                
+                # pixmap = QPixmap(image)
+                # pixmap = pixmap.scaledToWidth(256, Qt.SmoothTransformation)
+                # lbl_img = QLabel()
+                # lbl_img.setPixmap(pixmap)
+                # sublayout.addWidget(lbl_img)
                 
                 movie = QMovie(image)
                 width = 256
@@ -202,35 +229,30 @@ class ResultDialog(QDialog, result_dialog):
                 tb.setMaximumHeight(height)
                 tb.setOpenExternalLinks(True)
                 tb.append(image)
-                tb.append('\n' + filesort.convert_size(os.path.getsize(image)))
-                
-                
-                # pixmap = QPixmap(image)
-                # pixmap = pixmap.scaledToWidth(256, Qt.SmoothTransformation)
-                # lbl_img = QLabel()
-                # lbl_img.setPixmap(pixmap)
-                # sublayout.addWidget(lbl_img)
-                # tb = QTextBrowser()
-                # tb.setMaximumHeight(pixmap.height())
-                # tb.setOpenExternalLinks(True)
-                # tb.append(image)
-                # tb.append('\n' + filesort.convert_size(os.path.getsize(image)))
-                # tb.append('<a href="doc.html"><img src='+ image+'>Open Project Folder</a>')
-                
+                tb.append('\n' + filesort.convert_date(os.path.getmtime(image)) +
+                          '\n\n' + str(filesort.get_img_size(image)) +
+                          '\n\n' + str(filesort.get_dpi(image)) + ' dpi' +
+                          '\n\n' + filesort.convert_size(os.path.getsize(image)))
                 sublayout.addWidget(tb)
-                cb = QCheckBox('삭제')
                 
+                cb = QCheckBox('삭제')
                 sublayout.addWidget(cb)
                 
                 self.image_widgets.append([lbl_img, tb, cb, image])
 
-                
+    # def resize_height(self, img, width):
+    #     pixmap = QPixmap(img)
+    #     try:
+    #         return int(pixmap.height()/pixmap.width()*width)
+    #     except:
+    #         return 256
+          
     def resize_height(self, img, width):
-        pixmap = QPixmap(img)
+        img_width, img_height = filesort.get_img_size(img)
         try:
-            return int(pixmap.height()/pixmap.width()*width)
+            return int(img_height/img_width*width)
         except:
-            return 256
+            return width
         
     def delete(self):
         #print('delete')
@@ -251,7 +273,7 @@ class ConfigureDialog(QDialog, configure_dialog):
         super().__init__()
         self.setupUi(self)
         self.setWindowFlags(Qt.Window)
-        size, colors = load_config()
+        size, colors, path = load_config()
         self.sizeSlider.setValue(size)
         self.colorsSlider.setValue(colors)
         self.sizeLabel.setText(str(size))
@@ -276,8 +298,9 @@ class ConfigureDialog(QDialog, configure_dialog):
     def save_config(self):
         size = self.sizeSlider.value()
         colors = self.colorsSlider.value()
-        with open("Axion.conf", "w") as f:
-            f.write(str(size) + '\n' + str(colors))
+        path = load_config()[2]
+        with open("Axion.conf", "w", -1, 'utf-8') as f:
+            f.write(str(size) + '\n' + str(colors) + '\n' + path)
         nabi = nabitools.Nabi((size, size), colors)
         simple_img = nabi.image_simplification(self.exam_img)
         self.ax.imshow(simple_img, interpolation='nearest')
