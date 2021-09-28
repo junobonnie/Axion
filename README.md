@@ -37,6 +37,7 @@
 ![use](https://user-images.githubusercontent.com/60418809/135101734-d4509f6c-f28e-4fce-81d3-25da8eefd74c.gif)
 
 ![use2](https://user-images.githubusercontent.com/60418809/135101742-bc8cf69a-a9d3-44f1-a9ab-58bbe75f13b5.gif)
+
 이미지 중복 검사 설정을 더 단순한 단순화 이미지로 바꾸면 더 많은 유사 이미지를 색출할 수 있습니다. 
 
 또한 삭제 체크 박스와 하단의 삭제 버튼을 통해 중복 이미지를 일괄 삭제할 수 있습니다.
