@@ -69,6 +69,4 @@ v0.2 변경사항: </br>
 
 
 ## 다운로드 링크
-v0.2(beta) (windows) Download Link: http://a76f41d0e826.ap.ngrok.io/index.php/s/NsRaaMqqRTNNxr6/download/AXION-v0.2.zip
-
-v0.1(beta) (windows) Download Link: https://drive.google.com/file/d/17HOlNr8IW9qmAyH7SaNyaK6-hx_k_AbK/view?usp=sharing
+v0.2(beta) (windows) Download Link: https://github.com/junobonnie/Axion/releases/tag/duplicate_photo_finder
